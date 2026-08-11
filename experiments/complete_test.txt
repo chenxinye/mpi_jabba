@@ -1,0 +1,21 @@
+(base) chenxinye@portable9771 revision_new % cd /Users/chenxinye/mpi_jabba/revision_new
+
+EXPERIMENT=pipeline \
+THREAD_VALUES="1 2 4 8 16 32" \
+N_VALUES="200000" \
+TOL=0.01 \
+ALPHA=0.05 \
+KIND=gaussian \
+WARMUP=1 \
+REPEATS=3 \
+COMPRESSION_BACKEND=cython \
+INVERSE_BACKEND=legacy-python \
+SPEEDUP_METRIC=total \
+OUTDIR=./results_univariate_pipeline \
+bash ./run_compression_threads.sh
+
+
+
+
+bash run_uea.sh
+bash run_mpi_scaling.sh

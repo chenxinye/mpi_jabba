@@ -1,0 +1,242 @@
+(base) chenxinye@mac ~ % git clone https://github.com/chenxinye/mpi-aggregation.git
+Cloning into 'mpi-aggregation'...
+remote: Enumerating objects: 117, done.
+remote: Counting objects: 100% (117/117), done.
+remote: Compressing objects: 100% (69/69), done.
+remote: Total 117 (delta 47), reused 98 (delta 32), pack-reused 0 (from 0)
+Receiving objects: 100% (117/117), 36.38 KiB | 3.03 MiB/s, done.
+Resolving deltas: 100% (47/47), done.
+(base) chenxinye@mac ~ % cd mpi-aggregation 
+(base) chenxinye@mac mpi-aggregation % cmake -S . -B build -DCMAKE_BUILD_TYPE=Release
+-- The C compiler identification is AppleClang 17.0.0.17000604
+-- The CXX compiler identification is AppleClang 17.0.0.17000604
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - done
+-- Check for working C compiler: /usr/bin/cc - skipped
+-- Detecting C compile features
+-- Detecting C compile features - done
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Check for working CXX compiler: /usr/bin/c++ - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- Found MPI_C: /opt/homebrew/Cellar/open-mpi/5.0.9/lib/libmpi.dylib (found version "3.1")
+-- Found MPI: TRUE (found version "3.1") found components: C
+-- Found Python: /opt/anaconda3/bin/python3.12 (found version "3.12.4") found components: Interpreter Development.Module
+CMake Error at CMakeLists.txt:12 (find_package):
+  Could not find a package configuration file provided by "pybind11" with any
+  of the following names:
+
+    pybind11.cps
+    pybind11Config.cmake
+    pybind11-config.cmake
+
+  Add the installation prefix of "pybind11" to CMAKE_PREFIX_PATH or set
+  "pybind11_DIR" to a directory containing one of the above files.  If
+  "pybind11" provides a separate development package or SDK, be sure it has
+  been installed.
+
+
+-- Configuring incomplete, errors occurred!
+(base) chenxinye@mac mpi-aggregation % pip install pybind11
+Requirement already satisfied: pybind11 in /opt/anaconda3/lib/python3.12/site-packages (3.0.1)
+(base) chenxinye@mac mpi-aggregation % pip install pybind11
+Requirement already satisfied: pybind11 in /opt/anaconda3/lib/python3.12/site-packages (3.0.1)
+(base) chenxinye@mac mpi-aggregation % export CMAKE_PREFIX_PATH="$CMAKE_PREFIX_PATH:/opt/anaconda3/lib/python3.12/site-packages/pybind11/share/cmake"
+(base) chenxinye@mac mpi-aggregation % cmake -S . -B build -DCMAKE_BUILD_TYPE=Release
+-- Performing Test HAS_FLTO_THIN
+-- Performing Test HAS_FLTO_THIN - Success
+-- Performing Test HAS_FLTO
+-- Performing Test HAS_FLTO - Success
+-- Found pybind11: /opt/anaconda3/lib/python3.12/site-packages/pybind11/include (found version "3.0.1")
+-- Configuring done (1.7s)
+-- Generating done (0.1s)
+-- Build files have been written to: /Users/chenxinye/mpi-aggregation/build
+(base) chenxinye@mac mpi-aggregation % cmake --build build -j
+[  6%] Building C object CMakeFiles/alphaagg.dir/src/alphaagg_serial.c.o
+[ 12%] Building C object CMakeFiles/alphaagg.dir/src/alphaagg_dsu.c.o
+[ 18%] Building C object CMakeFiles/alphaagg.dir/src/alphaagg_summary.c.o
+[ 25%] Building C object CMakeFiles/alphaagg.dir/src/alphaagg_grid.c.o
+[ 31%] Building C object CMakeFiles/alphaagg.dir/src/alphaagg_mpi.c.o
+[ 37%] Linking C static library libalphaagg.a
+[ 37%] Built target alphaagg
+[ 43%] Building C object CMakeFiles/alphaagg_bench.dir/apps/alphaagg_bench.c.o
+[ 50%] Building C object CMakeFiles/alphaagg_c_example.dir/apps/alphaagg_c_example.c.o
+[ 56%] Building C object CMakeFiles/test_mpi_small.dir/tests/test_mpi_small.c.o
+[ 62%] Building CXX object CMakeFiles/_core.dir/bindings/python/alphaagg_pybind.cpp.o
+[ 68%] Building C object CMakeFiles/test_serial.dir/tests/test_serial.c.o
+[ 81%] Linking C executable apps/alphaagg_c_example
+[ 81%] Linking C executable test_serial
+[ 87%] Linking C executable test_mpi_small
+[ 93%] Linking C executable apps/alphaagg_bench
+[ 93%] Built target alphaagg_c_example
+[ 93%] Built target test_mpi_small
+[ 93%] Built target test_serial
+[ 93%] Built target alphaagg_bench
+In file included from /Users/chenxinye/mpi-aggregation/bindings/python/alphaagg_pybind.cpp:2:
+In file included from /opt/anaconda3/lib/python3.12/site-packages/pybind11/include/pybind11/numpy.h:12:
+In file included from /opt/anaconda3/lib/python3.12/site-packages/pybind11/include/pybind11/pybind11.h:12:
+In file included from /opt/anaconda3/lib/python3.12/site-packages/pybind11/include/pybind11/detail/class.h:12:
+In file included from /opt/anaconda3/lib/python3.12/site-packages/pybind11/include/pybind11/attr.h:13:
+/opt/anaconda3/lib/python3.12/site-packages/pybind11/include/pybind11/detail/common.h:217:10: fatal error: 'cstddef' file not found
+  217 | #include <cstddef>
+      |          ^~~~~~~~~
+1 error generated.
+make[2]: *** [CMakeFiles/_core.dir/bindings/python/alphaagg_pybind.cpp.o] Error 1
+make[1]: *** [CMakeFiles/_core.dir/all] Error 2
+make: *** [all] Error 2
+(base) chenxinye@mac mpi-aggregation % cmake -S . -B build -DCMAKE_BUILD_TYPE=Release \
+  -DCMAKE_PREFIX_PATH="/opt/anaconda3" \
+  -Dpybind11_DIR=/opt/anaconda3/lib/python3.12/site-packages/pybind11/share/cmake/pybind11 \
+  -DPython_ROOT_DIR=/opt/anaconda3 \
+  -DPython_EXECUTABLE=/opt/anaconda3/bin/python3.12
+-- Found pybind11: /opt/anaconda3/lib/python3.12/site-packages/pybind11/include (found version "3.0.1")
+-- Configuring done (0.8s)
+-- Generating done (0.2s)
+-- Build files have been written to: /Users/chenxinye/mpi-aggregation/build
+(base) chenxinye@mac mpi-aggregation % ctest --test-dir build --output-on-failure
+
+Test project /Users/chenxinye/mpi-aggregation/build
+    Start 1: test_serial
+1/3 Test #1: test_serial ......................   Passed    0.32 sec
+    Start 2: test_mpi_small_np2
+2/3 Test #2: test_mpi_small_np2 ...............   Passed    0.57 sec
+    Start 3: test_mpi_small_np4
+3/3 Test #3: test_mpi_small_np4 ...............   Passed    0.19 sec
+
+100% tests passed, 0 tests failed out of 3
+
+Total Test time (real) =   1.08 sec
+(base) chenxinye@mac mpi-aggregation % python -m pip install -v .
+Using pip 26.1.2 from /opt/anaconda3/lib/python3.12/site-packages/pip (python 3.12)
+Processing ./.
+  Running command installing build dependencies
+  Using pip 26.1.2 from /opt/anaconda3/lib/python3.12/site-packages/pip (python 3.12)
+  Collecting scikit-build-core>=0.10
+    Obtaining dependency information for scikit-build-core>=0.10 from https://files.pythonhosted.org/packages/07/49/b2f0fbe3165d55c02e7f9eec6a10685d518af0ef6e919ff2f589c2d15c85/scikit_build_core-0.12.2-py3-none-any.whl.metadata
+    Downloading scikit_build_core-0.12.2-py3-none-any.whl.metadata (16 kB)
+  Collecting pybind11>=2.12
+    Obtaining dependency information for pybind11>=2.12 from https://files.pythonhosted.org/packages/b3/06/c3a23c9a0263b136c519f033a58d4641e73065fefc7754e9667ec206d992/pybind11-3.0.4-py3-none-any.whl.metadata
+    Downloading pybind11-3.0.4-py3-none-any.whl.metadata (10 kB)
+    Link requires a different Python (3.12.4 not in: '>=3.7,<3.11'): https://files.pythonhosted.org/packages/3a/be/650f9c091ef71cb01d735775d554e068752d3ff63d7943b26316dc401749/numpy-1.21.2.zip (from https://pypi.org/simple/numpy/) (requires-python:>=3.7,<3.11)
+    Link requires a different Python (3.12.4 not in: '>=3.7,<3.11'): https://files.pythonhosted.org/packages/5f/d6/ad58ded26556eaeaa8c971e08b6466f17c4ac4d786cd3d800e26ce59cc01/numpy-1.21.3.zip (from https://pypi.org/simple/numpy/) (requires-python:>=3.7,<3.11)
+    Link requires a different Python (3.12.4 not in: '>=3.7,<3.11'): https://files.pythonhosted.org/packages/fb/48/b0708ebd7718a8933f0d3937513ef8ef2f4f04529f1f66ca86d873043921/numpy-1.21.4.zip (from https://pypi.org/simple/numpy/) (requires-python:>=3.7,<3.11)
+    Link requires a different Python (3.12.4 not in: '>=3.7,<3.11'): https://files.pythonhosted.org/packages/c2/a8/a924a09492bdfee8c2ec3094d0a13f2799800b4fdc9c890738aeeb12c72e/numpy-1.21.5.zip (from https://pypi.org/simple/numpy/) (requires-python:>=3.7,<3.11)
+    Link requires a different Python (3.12.4 not in: '>=3.7,<3.11'): https://files.pythonhosted.org/packages/45/b7/de7b8e67f2232c26af57c205aaad29fe17754f793404f59c8a730c7a191a/numpy-1.21.6.zip (from https://pypi.org/simple/numpy/) (requires-python:>=3.7,<3.11)
+  Collecting numpy
+    Obtaining dependency information for numpy from https://files.pythonhosted.org/packages/42/77/fdf34a71dd30f54979b18603bee915e0aaf825b07afe79acd60b04b691e2/numpy-2.5.1-cp312-cp312-macosx_14_0_arm64.whl.metadata
+    Downloading numpy-2.5.1-cp312-cp312-macosx_14_0_arm64.whl.metadata (6.6 kB)
+  Collecting packaging>=23.2 (from scikit-build-core>=0.10)
+    Obtaining dependency information for packaging>=23.2 from https://files.pythonhosted.org/packages/df/b2/87e62e8c3e2f4b32e5fe99e0b86d576da1312593b39f47d8ceef365e95ed/packaging-26.2-py3-none-any.whl.metadata
+    Using cached packaging-26.2-py3-none-any.whl.metadata (3.5 kB)
+  Collecting pathspec>=0.12.0 (from scikit-build-core>=0.10)
+    Obtaining dependency information for pathspec>=0.12.0 from https://files.pythonhosted.org/packages/f1/d9/7fb5aa316bc299258e68c73ba3bddbc499654a07f151cba08f6153988714/pathspec-1.1.1-py3-none-any.whl.metadata
+    Downloading pathspec-1.1.1-py3-none-any.whl.metadata (14 kB)
+  Downloading scikit_build_core-0.12.2-py3-none-any.whl (192 kB)
+  Downloading pybind11-3.0.4-py3-none-any.whl (314 kB)
+  Downloading numpy-2.5.1-cp312-cp312-macosx_14_0_arm64.whl (5.3 MB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 5.3/5.3 MB 28.7 MB/s  0:00:00
+  Using cached packaging-26.2-py3-none-any.whl (100 kB)
+  Downloading pathspec-1.1.1-py3-none-any.whl (57 kB)
+  Installing collected packages: pybind11, pathspec, packaging, numpy, scikit-build-core
+    Creating /private/var/folders/ws/xgwzc_c96dv65ptswct0rjd40000gn/T/pip-build-env-_50lgqk4/overlay/bin
+    changing mode of /private/var/folders/ws/xgwzc_c96dv65ptswct0rjd40000gn/T/pip-build-env-_50lgqk4/overlay/bin/pybind11-config to 755
+    changing mode of /private/var/folders/ws/xgwzc_c96dv65ptswct0rjd40000gn/T/pip-build-env-_50lgqk4/overlay/bin/f2py to 755
+    changing mode of /private/var/folders/ws/xgwzc_c96dv65ptswct0rjd40000gn/T/pip-build-env-_50lgqk4/overlay/bin/numpy-config to 755
+
+  ERROR: pip's dependency resolver does not currently take into account all the packages that are installed. This behaviour is the source of the following dependency conflicts.
+  aeon 1.3.0 requires numpy<2.3.0,>=1.21.0, but you have numpy 2.5.1 which is incompatible.
+  aeon 1.3.0 requires pandas<2.4.0,>=2.0.0, but you have pandas 3.0.3 which is incompatible.
+  aeon 1.3.0 requires scikit-learn<1.8.0,>=1.0.0, but you have scikit-learn 1.8.0 which is incompatible.
+  aeon 1.3.0 requires scipy<1.16.0,>=1.9.0, but you have scipy 1.17.1 which is incompatible.
+  contourpy 1.2.0 requires numpy<2.0,>=1.20, but you have numpy 2.5.1 which is incompatible.
+  tensorflow 2.20.0 requires protobuf>=5.28.0, but you have protobuf 3.20.3 which is incompatible.
+  tslearn 0.6.4 requires numpy<2.3,>=1.24.3, but you have numpy 2.5.1 which is incompatible.
+  tslearn 0.6.4 requires scikit-learn<1.7,>=1.3.2, but you have scikit-learn 1.8.0 which is incompatible.
+  tslearn 0.6.4 requires scipy<1.17,>=1.10.1, but you have scipy 1.17.1 which is incompatible.
+  streamlit 1.32.0 requires numpy<2,>=1.19.3, but you have numpy 2.5.1 which is incompatible.
+  streamlit 1.32.0 requires packaging<24,>=16.8, but you have packaging 26.2 which is incompatible.
+  streamlit 1.32.0 requires pandas<3,>=1.3.0, but you have pandas 3.0.3 which is incompatible.
+  numba 0.59.1 requires numpy<1.27,>=1.22, but you have numpy 2.5.1 which is incompatible.
+  pywavelets 1.5.0 requires numpy<2.0,>=1.22.4, but you have numpy 2.5.1 which is incompatible.
+  Successfully installed numpy-2.5.1 packaging-26.2 pathspec-1.1.1 pybind11-3.0.4 scikit-build-core-0.12.2
+  Installing build dependencies ... done
+  Running command Getting requirements to build wheel
+  Getting requirements to build wheel ... done
+  Running command Preparing metadata (pyproject.toml)
+  *** scikit-build-core 0.12.2 using CMake 4.3.2 (metadata_wheel)
+  Preparing metadata (pyproject.toml) ... done
+Requirement already satisfied: numpy in /opt/anaconda3/lib/python3.12/site-packages (from mpi-alpha-agg==0.1.0) (1.26.4)
+Building wheels for collected packages: mpi-alpha-agg
+  Running command Building wheel for mpi-alpha-agg (pyproject.toml)
+  *** scikit-build-core 0.12.2 using CMake 4.3.2 (wheel)
+  *** Configuring CMake...
+  loading initial cache file /var/folders/ws/xgwzc_c96dv65ptswct0rjd40000gn/T/tmpmfiszxrg/build/CMakeInit.txt
+  -- The C compiler identification is Clang 22.1.5
+  -- The CXX compiler identification is Clang 22.1.5
+  -- Detecting C compiler ABI info
+  -- Detecting C compiler ABI info - done
+  -- Check for working C compiler: /opt/homebrew/opt/llvm/bin/clang - skipped
+  -- Detecting C compile features
+  -- Detecting C compile features - done
+  -- Detecting CXX compiler ABI info
+  -- Detecting CXX compiler ABI info - done
+  -- Check for working CXX compiler: /opt/homebrew/opt/llvm/bin/clang++ - skipped
+  -- Detecting CXX compile features
+  -- Detecting CXX compile features - done
+  -- Found MPI_C: /opt/homebrew/Cellar/open-mpi/5.0.9/lib/libmpi.dylib (found version "3.1")
+  -- Found MPI: TRUE (found version "3.1") found components: C
+  -- Found Python: /opt/anaconda3/bin/python (found version "3.12.4") found components: Interpreter Development.Module
+  -- Performing Test HAS_FLTO_THIN
+  -- Performing Test HAS_FLTO_THIN - Success
+  -- Performing Test HAS_FLTO
+  -- Performing Test HAS_FLTO - Success
+  -- Found pybind11: /opt/anaconda3/lib/python3.12/site-packages/pybind11/include (found version "3.0.1")
+  -- Configuring done (5.6s)
+  -- Generating done (0.3s)
+  -- Build files have been written to: /var/folders/ws/xgwzc_c96dv65ptswct0rjd40000gn/T/tmpmfiszxrg/build
+  *** Building project with Ninja...
+  [1/16] Building C object CMakeFiles/alphaagg.dir/src/alphaagg_grid.c.o
+  [2/16] Building C object CMakeFiles/test_serial.dir/tests/test_serial.c.o
+  [3/16] Building C object CMakeFiles/alphaagg_c_example.dir/apps/alphaagg_c_example.c.o
+  [4/16] Building C object CMakeFiles/alphaagg.dir/src/alphaagg_dsu.c.o
+  [5/16] Building C object CMakeFiles/test_mpi_small.dir/tests/test_mpi_small.c.o
+  [6/16] Building C object CMakeFiles/alphaagg.dir/src/alphaagg_summary.c.o
+  [7/16] Building C object CMakeFiles/alphaagg.dir/src/alphaagg_serial.c.o
+  [8/16] Building C object CMakeFiles/alphaagg_bench.dir/apps/alphaagg_bench.c.o
+  [9/16] Building C object CMakeFiles/alphaagg.dir/src/alphaagg_mpi.c.o
+  [10/16] Linking C static library libalphaagg.a
+  [11/16] Linking C executable apps/alphaagg_bench
+  [12/16] Linking C executable test_serial
+  [13/16] Linking C executable apps/alphaagg_c_example
+  [14/16] Linking C executable test_mpi_small
+  [15/16] Building CXX object CMakeFiles/_core.dir/bindings/python/alphaagg_pybind.cpp.o
+  [16/16] Linking CXX shared module _core.cpython-312-darwin.so
+  /opt/anaconda3/bin/strip: changes being made to the file will invalidate the code signature in: /private/var/folders/ws/xgwzc_c96dv65ptswct0rjd40000gn/T/tmpmfiszxrg/build/_core.cpython-312-darwin.so
+  [cctools-port]: generating fake signature for '/private/var/folders/ws/xgwzc_c96dv65ptswct0rjd40000gn/T/tmpmfiszxrg/build/_core.cpython-312-darwin.so.strip'
+  *** Installing project into wheel...
+  -- Install configuration: "Release"
+  -- Installing: /var/folders/ws/xgwzc_c96dv65ptswct0rjd40000gn/T/tmpmfiszxrg/wheel/platlib/lib/libalphaagg.a
+  -- Installing: /var/folders/ws/xgwzc_c96dv65ptswct0rjd40000gn/T/tmpmfiszxrg/wheel/platlib/mpi_alphaagg/_core.cpython-312-darwin.so
+  /opt/anaconda3/bin/strip: changes being made to the file will invalidate the code signature in: /private/var/folders/ws/xgwzc_c96dv65ptswct0rjd40000gn/T/tmpmfiszxrg/wheel/platlib/mpi_alphaagg/_core.cpython-312-darwin.so
+  [cctools-port]: generating fake signature for '/private/var/folders/ws/xgwzc_c96dv65ptswct0rjd40000gn/T/tmpmfiszxrg/wheel/platlib/mpi_alphaagg/_core.cpython-312-darwin.so.strip'
+  -- Installing: /var/folders/ws/xgwzc_c96dv65ptswct0rjd40000gn/T/tmpmfiszxrg/wheel/platlib/bin/alphaagg_bench
+  /opt/anaconda3/bin/strip: changes being made to the file will invalidate the code signature in: /private/var/folders/ws/xgwzc_c96dv65ptswct0rjd40000gn/T/tmpmfiszxrg/wheel/platlib/bin/alphaagg_bench
+  [cctools-port]: generating fake signature for '/private/var/folders/ws/xgwzc_c96dv65ptswct0rjd40000gn/T/tmpmfiszxrg/wheel/platlib/bin/alphaagg_bench.strip'
+  -- Installing: /var/folders/ws/xgwzc_c96dv65ptswct0rjd40000gn/T/tmpmfiszxrg/wheel/platlib/bin/alphaagg_c_example
+  /opt/anaconda3/bin/strip: changes being made to the file will invalidate the code signature in: /private/var/folders/ws/xgwzc_c96dv65ptswct0rjd40000gn/T/tmpmfiszxrg/wheel/platlib/bin/alphaagg_c_example
+  [cctools-port]: generating fake signature for '/private/var/folders/ws/xgwzc_c96dv65ptswct0rjd40000gn/T/tmpmfiszxrg/wheel/platlib/bin/alphaagg_c_example.strip'
+  -- Installing: /var/folders/ws/xgwzc_c96dv65ptswct0rjd40000gn/T/tmpmfiszxrg/wheel/platlib/include/mpi_alphaagg
+  -- Installing: /var/folders/ws/xgwzc_c96dv65ptswct0rjd40000gn/T/tmpmfiszxrg/wheel/platlib/include/mpi_alphaagg/alphaagg_types.h
+  -- Installing: /var/folders/ws/xgwzc_c96dv65ptswct0rjd40000gn/T/tmpmfiszxrg/wheel/platlib/include/mpi_alphaagg/alphaagg.h
+  -- Installing: /var/folders/ws/xgwzc_c96dv65ptswct0rjd40000gn/T/tmpmfiszxrg/wheel/platlib/include/mpi_alphaagg/mpi_alphaagg.h
+  *** Making wheel...
+  *** Created mpi_alpha_agg-0.1.0-cp312-cp312-macosx_26_0_arm64.whl
+  Building wheel for mpi-alpha-agg (pyproject.toml) ... done
+  Created wheel for mpi-alpha-agg: filename=mpi_alpha_agg-0.1.0-cp312-cp312-macosx_26_0_arm64.whl size=98994 sha256=6af4e5e464ae7a0fbeb740cf942995064a4187afbc0dd950c7e9255584c2025a
+  Stored in directory: /Users/chenxinye/Library/Caches/pip/wheels/ff/5d/17/26f256f1cc42e5c409f8727b971e6f440ddcaf946c56266779
+Successfully built mpi-alpha-agg
+Installing collected packages: mpi-alpha-agg
+Successfully installed mpi-alpha-agg-0.1.0
+(base) chenxinye@mac mpi-aggregation % python -c "import mpi_alphaagg; print(mpi_alphaagg.__version__)"
+0.1.0

@@ -1,0 +1,20 @@
+[build-system]
+requires = ["scikit-build-core>=0.10", "pybind11>=2.12", "numpy", "Cython>=3.0"]
+build-backend = "scikit_build_core.build"
+
+[project]
+name = "mpi-alpha-agg"
+version = "0.1.0"
+description = "MPI-based alpha-neighborhood aggregation for 2D data"
+readme = "README.md"
+requires-python = ">=3.9"
+license = {text = "BSD-3-Clause"}
+authors = [{name = "Xinye Chen"}]
+dependencies = ["numpy"]
+
+[project.optional-dependencies]
+plot = ["pandas", "matplotlib"]
+dev = ["pytest", "build", "twine", "pandas", "matplotlib"]
+
+[tool.scikit-build]
+wheel.packages = ["python/mpi_alphaagg"]

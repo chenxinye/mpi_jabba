@@ -1,0 +1,16 @@
+mpi_ranks,n_jobs,repeat,fit_transform_sec,inverse_transform_sec,compression_backend,aggregation_backend,symbol_sequences,first_sequence_length,reconstruction_length
+4,1,1,0.0011020000000000058,5.099999999999549e-05,jabba.compmem,mpi-alpha-agg:aggregate_mpi_ptga,1,15,400
+4,1,2,0.0008340000000000014,5.000000000000837e-05,jabba.compmem,mpi-alpha-agg:aggregate_mpi_ptga,1,15,400
+4,1,3,0.000893999999999992,4.899999999999349e-05,jabba.compmem,mpi-alpha-agg:aggregate_mpi_ptga,1,15,400
+4,2,1,0.004241000000000009,0.00025799999999999434,jabba.compmem,mpi-alpha-agg:aggregate_mpi_ptga,2,8,400
+4,2,2,0.004736000000000018,0.0003230000000000177,jabba.compmem,mpi-alpha-agg:aggregate_mpi_ptga,2,8,400
+4,2,3,0.004129999999999995,0.00011600000000000499,jabba.compmem,mpi-alpha-agg:aggregate_mpi_ptga,2,8,400
+4,4,1,0.006108000000000002,7.899999999999574e-05,jabba.compmem,mpi-alpha-agg:aggregate_mpi_ptga,4,4,400
+4,4,2,0.007156999999999997,0.00035200000000001896,jabba.compmem,mpi-alpha-agg:aggregate_mpi_ptga,4,4,400
+4,4,3,0.004465999999999998,0.00014800000000000924,jabba.compmem,mpi-alpha-agg:aggregate_mpi_ptga,4,4,400
+4,6,1,0.00523499999999999,0.0003220000000000167,jabba.compmem,mpi-alpha-agg:aggregate_mpi_ptga,6,2,400
+4,6,2,0.005555000000000004,0.00017400000000000748,jabba.compmem,mpi-alpha-agg:aggregate_mpi_ptga,6,2,400
+4,6,3,0.0031150000000000067,0.00017500000000000848,jabba.compmem,mpi-alpha-agg:aggregate_mpi_ptga,6,2,400
+4,8,1,0.002263000000000015,7.999999999999674e-05,jabba.compmem,mpi-alpha-agg:aggregate_mpi_ptga,8,2,400
+4,8,2,0.0019979999999999998,7.599999999999274e-05,jabba.compmem,mpi-alpha-agg:aggregate_mpi_ptga,8,2,400
+4,8,3,0.0021210000000000118,7.80000000000225e-05,jabba.compmem,mpi-alpha-agg:aggregate_mpi_ptga,8,2,400

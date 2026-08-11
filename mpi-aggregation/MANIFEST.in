@@ -1,0 +1,10 @@
+include README.md
+include LICENSE
+recursive-include docs *.md
+recursive-include include *.h
+recursive-include src *.c *.h
+recursive-include python *.py *.pyx
+recursive-include bindings *.cpp
+recursive-include apps *.c
+recursive-include tests *.c *.py
+recursive-include scripts *.sh

@@ -1,7 +1,7 @@
 # Parallel Joint Symbolic Encoding of Time Series
 
 This repository contains the experimental code for the paper **"Parallel Joint
-Symbolic Encoding of Time Series"** by Xinye Chen, Sorbonne Université, CNRS,
+Symbolic Encoding of Time Series"**  (previously accepted in [HLPP](https://sites.google.com/view/hlpp-2026/hlpp-2026)) by Xinye Chen, Sorbonne Université, CNRS,
 LIP6.
 
 The codebase focuses on a parallel implementation of JABBA-style symbolic time
